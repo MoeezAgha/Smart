@@ -9,19 +9,30 @@
     {
         new Address
         {
-            StreetAddress = "123 Main St",
-            City = "City",
-            State = "State",
-            County = "County"
+            StreetAddress = "1-Address Main St",
+            City = "Tallahassee",
+            State = "FL",
+            County = "Leon"
         },
-        // Add more Address objects as needed...
-    };
+         new Address
+        {
+            StreetAddress = "123 Main St",
+            City = "Bethesda",
+            State = "MD",
+            County = "SomeCounty"
+        },
+          new Address
+        {
+            StreetAddress = "4042 Bald Cypress Way",
+            City = "Tallahassee",
+            State = "FL",
+            County = "Leon-County"
+        },
 
-            // Simulate a delay for demonstration purposes
-         
+    };
 
             return searchResults;
         }
     }
 
-    }
+}

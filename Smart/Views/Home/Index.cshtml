@@ -2,6 +2,23 @@
     ViewData["Title"] = "Search Address";
 }
 <style>
+    /* Style for the validation indicators */
+    .validation-indicator {
+        display: inline-block;
+        width: 16px;
+        height: 16px;
+        margin-left: 5px;
+        background-size: contain;
+    }
+
+    .green-tick {
+        background-image: url('green-tick-icon.png'); /* Replace with your green tick image */
+    }
+
+    .red-cross {
+        background-image: url('red-cross-icon.png'); /* Replace with your red cross image */
+    }
+
     /* Style for the dropdown menu */
     .dropdown-menu {
         max-height: 200px;
@@ -34,7 +51,11 @@
         position: relative;
     }
 </style>
-<h2>Search Address</h2>
+@{
+    ViewData["Title"] = "Address Search";
+}
+
+<h2>Address Search</h2>
 
 <div class="form-group">
     <label for="StreetAddress">Street Address</label>
@@ -47,6 +68,9 @@
         </div>
     </div>
 </div>
+<div id="searchResults" class="dropdown">
+    <ul class="dropdown-menu"></ul>
+</div>
 
 <div class="form-group">
     <label for="City">City</label>
@@ -58,11 +82,55 @@
     <input type="text" id="State" class="form-control" />
 </div>
 
-<div id="searchResults" class="dropdown">
+<div class="form-group">
+    <label for="County">County</label>
+    <input type="text" id="County" class="form-control" />
+</div>
+
+<hr />
+
+<div class="form-group">
+    <label for="MailStreetAddress">Mail Street Address</label>
+    <div class="input-group">
+        <input type="text" id="MailStreetAddress" class="form-control" />
+        <div class="input-group-append">
+            <div class="spinner-border" role="status" id="loadingSpinnerMail" style="display: none;">
+                <span class="sr-only">Loading...</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="form-group">
+    <label for="MailCity">Mail City</label>
+    <input type="text" id="MailCity" class="form-control" />
+</div>
+
+<div class="form-group">
+    <label for="MailState">Mail State</label>
+    <input type="text" id="MailState" class="form-control" />
+</div>
+
+<div class="form-group">
+    <label for="MailCounty">Mail County</label>
+    <input type="text" id="MailCounty" class="form-control" />
+</div>
+
+<div id="mailsearchResults" class="dropdown">
     <ul class="dropdown-menu"></ul>
 </div>
+
+
 
 @section Scripts {
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="~/js/site.js"></script>
+    <script type="text/javascript">
+        setupAddressSearch('#StreetAddress', '#City', '#State', '#County', '#searchResults');
+
+
+        // Set up address search for Mail Street Address
+        setupAddressSearch('#MailStreetAddress', '#MailCity', '#MailState', '#MailCounty', '#mailsearchResults');
+
+    </script>
 }
