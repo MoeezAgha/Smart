@@ -45,11 +45,15 @@
             text-decoration: none;
         }
     /* Style for the loading spinner */
-    #loadingSpinner {
-        margin-left: -32px;
+    .loadingSpinner {
+        margin-left: -36px; /* Adjust this value as needed to align the spinner */
         z-index: 1001;
         position: relative;
+        top: 8%; /* Vertically center the spinner */
+       
     }
+
+  
 </style>
 @{
     ViewData["Title"] = "Address Search";
@@ -61,11 +65,7 @@
     <label for="StreetAddress">Street Address</label>
     <div class="input-group">
         <input type="text" id="StreetAddress" class="form-control" />
-        <div class="input-group-append">
-            <div class="spinner-border" role="status" id="StreetAddress-loadingSpinner" style="display: none;">
-                <span class="sr-only">Loading...</span>
-            </div>
-        </div>
+     
     </div>
 </div>
 <div id="searchResults" class="dropdown">
@@ -93,12 +93,11 @@
     <label for="MailStreetAddress">Mail Street Address</label>
     <div class="input-group">
         <input type="text" id="MailStreetAddress" class="form-control" />
-        <div class="input-group-append">
-            <div class="spinner-border" role="status" id="MailStreetAddress-loadingSpinner" style="display: none;">
-                <span class="sr-only">Loading...</span>
-            </div>
-        </div>
+       
     </div>
+</div>
+<div id="mailsearchResults" class="dropdown">
+    <ul class="dropdown-menu"></ul>
 </div>
 
 <div class="form-group">
@@ -116,9 +115,6 @@
     <input type="text" id="MailCounty" class="form-control" />
 </div>
 
-<div id="mailsearchResults" class="dropdown">
-    <ul class="dropdown-menu"></ul>
-</div>
 
 
 

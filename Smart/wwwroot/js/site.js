@@ -5,7 +5,19 @@
 
         // Set up a timer to delay the search while typing
         var typingTimer;
-        var doneTypingInterval = 3000;
+        var doneTypingInterval = 3000;    
+
+        // Append the loading spinner element to the input-group
+        $(`${inputId}`).parent().append(
+            '<div class="input-group-append">' +
+            '<div class="loadingSpinner spinner-border" role="status" id="' + inputId.substring(1) + '-loadingSpinner" style="display: none;">' +
+            '<span class="sr-only"></span>' +
+            '</div>' +
+            '</div>'
+        );
+
+     
+
 
         // Handle input change event
         $(inputId).on('input', function () {
@@ -31,9 +43,7 @@
             $(countyId).val(result.county);
 
             // Add a background color for 2 seconds
-            $(cityId).css('background-color', 'lightblue');
-            $(stateId).css('background-color', 'lightblue');
-            $(countyId).css('background-color', 'lightblue');
+            setBackGroundColor(cityId, stateId, countyId);
 
             // Clear the search results dropdown
             $(resultsDivId + ' .dropdown-menu').empty();
@@ -41,13 +51,23 @@
             $(resultsDivId).hide();
 
             // Remove the background color after 2 seconds
-            setTimeout(function () {
-                $(cityId).css('background-color', '');
-                $(stateId).css('background-color', '');
-                $(countyId).css('background-color', '');
-            }, 2000);
+            removeBackGroundColor(cityId, stateId, countyId);
         });
     });
+}
+
+function setBackGroundColor(cityId, stateId, countyId) {
+    $(cityId).css('background-color', 'lightblue');
+    $(stateId).css('background-color', 'lightblue');
+    $(countyId).css('background-color', 'lightblue');
+}
+
+function removeBackGroundColor(cityId, stateId, countyId) {
+    setTimeout(function() {
+        $(cityId).css('background-color', '');
+        $(stateId).css('background-color', '');
+        $(countyId).css('background-color', '');
+    }, 2000);
 }
 
 function performSearch(inputId, cityId, stateId, countyId, resultsDivId) {
