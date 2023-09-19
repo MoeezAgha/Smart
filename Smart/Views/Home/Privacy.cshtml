@@ -1,6 +1,66 @@
-﻿@{
-    ViewData["Title"] = "Privacy Policy";
-}
-<h1>@ViewData["Title"]</h1>
+﻿<div class="form-group">
+    <label for="StreetAddress">Street Address</label>
+    <div class="input-group">
+        <input type="text" id="StreetAddress" class="form-control" />
+        <span class="validation-indicator" style="display: none;"></span>
+        <div class="input-group-append">
+            <div class="spinner-border" role="status" id="loadingSpinner" style="display: none;">
+                <span class="sr-only">Loading...</span>
+            </div>
+        </div>
+    </div>
+</div>
 
-<p>Use this page to detail your site's privacy policy.</p>
+
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+   
+    <script type="text/javascript">
+      
+        function setupAddressSearch(inputId, cityId, stateId, countyId, resultsDivId) {
+            // ... Your existing code ...
+
+            // Event delegation for anchor elements in the dropdown
+            $(resultsDivId).on('click', 'a', function () {
+                var result = JSON.parse($(this).attr('data-result'));
+
+                // Get the selected address as the input value
+                var selectedAddress = result.completeAddress;
+                var $input = $(inputId);
+
+                // Check if the input value is different from the selected address
+                if ($input.val() !== selectedAddress) {
+                    // Value was modified, show red cross
+                    showValidationIndicator($input, false);
+                } else {
+                    // Value was not modified, show green tick
+                    showValidationIndicator($input, true);
+                }
+
+                // Set the selected address as the input value
+                $input.val(selectedAddress);
+
+                // Update the related input fields
+                $(cityId).val(result.city);
+                $(stateId).val(result.state);
+                $(countyId).val(result.county);
+
+                // Clear the search results dropdown
+                $(resultsDivId + ' .dropdown-menu').empty();
+                $(resultsDivId).hide();
+            });
+        }
+
+        function showValidationIndicator($input, isValid) {
+            var $indicator = $input.next('.validation-indicator');
+            if (isValid) {
+                $indicator.removeClass('red-cross').addClass('green-tick');
+            } else {
+                $indicator.removeClass('green-tick').addClass('red-cross');
+            }
+            $indicator.show();
+        }
+        setupAddressSearch('#StreetAddress', '#City', '#State', '#County', '#searchResults');
+
+    </script>
+}

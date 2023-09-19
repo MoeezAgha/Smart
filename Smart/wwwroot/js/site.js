@@ -1,13 +1,18 @@
 ﻿function setupAddressSearch(inputId, cityId, stateId, countyId, resultsDivId) {
     $(document).ready(function () {
-        // Hide the specific results dropdown
+        // Hide the specific results dropdown initially
         $(resultsDivId).hide();
+
+        // Set up a timer to delay the search while typing
         var typingTimer;
         var doneTypingInterval = 3000;
 
+        // Handle input change event
         $(inputId).on('input', function () {
             clearTimeout(typingTimer);
-            $('#loadingSpinner').show(); // Show loading spinner
+            // Show loading spinner
+            $(`${inputId}-loadingSpinner`).show();
+            // Set a timer to wait for typing to finish before performing the search
             typingTimer = setTimeout(function () {
                 performSearch(inputId, cityId, stateId, countyId, resultsDivId);
             }, doneTypingInterval);
@@ -25,9 +30,22 @@
             $(stateId).val(result.state);
             $(countyId).val(result.county);
 
+            // Add a background color for 2 seconds
+            $(cityId).css('background-color', 'lightblue');
+            $(stateId).css('background-color', 'lightblue');
+            $(countyId).css('background-color', 'lightblue');
+
             // Clear the search results dropdown
             $(resultsDivId + ' .dropdown-menu').empty();
+            // Hide the results dropdown
             $(resultsDivId).hide();
+
+            // Remove the background color after 2 seconds
+            setTimeout(function () {
+                $(cityId).css('background-color', '');
+                $(stateId).css('background-color', '');
+                $(countyId).css('background-color', '');
+            }, 2000);
         });
     });
 }
@@ -40,11 +58,14 @@ function performSearch(inputId, cityId, stateId, countyId, resultsDivId) {
         url: '/SearchAddress/SearchAddress',
         data: { address: address },
         success: function (data) {
+            // Display the search results
             displayResults(data, inputId, cityId, stateId, countyId, resultsDivId);
-            $(resultsDivId).show(); // Show the specific results dropdown
+            // Show the specific results dropdown
+            $(resultsDivId).show();
         },
         complete: function () {
-            $('#loadingSpinner').hide();
+            // Hide the loading spinner after the search is complete
+            $(`${inputId}-loadingSpinner`).hide();
         }
     });
 }
